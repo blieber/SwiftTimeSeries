@@ -1,15 +1,16 @@
 //  Copyright © 2016 Quantac. All rights reserved.
 
 import XCTest
-@testable import Tally
 
+import SwiftTimeSeries
 import Foundation
 import ObjectMapper
 import Pantry
 import SwiftDate
 
 // TODO - add tests for concurrency behavior
-class PersistentConcurrentTimeSeriesTests: XCTestCase {
+
+class TimeSeriesTests: XCTestCase {
 
     private static let TestUserDefaultKey = "PersistentConcurrentTimeSeriesTests_TestUserDefaultKey"
     

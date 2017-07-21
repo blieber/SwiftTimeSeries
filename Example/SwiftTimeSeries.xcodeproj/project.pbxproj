@@ -14,6 +14,7 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		62DA556F1F224700003A57B7 /* TimeSeriesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DA556E1F224700003A57B7 /* TimeSeriesTests.swift */; };
 		A0F7CEC1E5F9659D03BA932E /* Pods_SwiftTimeSeries_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8C95F50BC853A54D6A4AC12 /* Pods_SwiftTimeSeries_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,7 +31,7 @@
 /* Begin PBXFileReference section */
 		1D636253031E43D38E829D88 /* Pods-SwiftTimeSeries_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftTimeSeries_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftTimeSeries_Example/Pods-SwiftTimeSeries_Example.release.xcconfig"; sourceTree = "<group>"; };
 		37DB671D4A34679A14C7E817 /* Pods-SwiftTimeSeries_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftTimeSeries_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftTimeSeries_Example/Pods-SwiftTimeSeries_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		5F865C1856247F48C8F87929 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		5F865C1856247F48C8F87929 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* SwiftTimeSeries_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftTimeSeries_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -41,12 +42,13 @@
 		607FACE51AFB9204008FA782 /* SwiftTimeSeries_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftTimeSeries_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		62DA556E1F224700003A57B7 /* TimeSeriesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeriesTests.swift; sourceTree = "<group>"; };
 		8FBC5D2647A138F45AD62B34 /* Pods-SwiftTimeSeries_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftTimeSeries_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftTimeSeries_Tests/Pods-SwiftTimeSeries_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		B464E894E5968693A9739632 /* Pods_SwiftTimeSeries_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftTimeSeries_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8C95F50BC853A54D6A4AC12 /* Pods_SwiftTimeSeries_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftTimeSeries_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CCF405366924E67FDB3859F6 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		CCF405366924E67FDB3859F6 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		D97A64B3FAE83CD8AA256C16 /* Pods-SwiftTimeSeries_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftTimeSeries_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftTimeSeries_Tests/Pods-SwiftTimeSeries_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		DA6745DB692B20178BDC2EE8 /* SwiftTimeSeries.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = SwiftTimeSeries.podspec; path = ../SwiftTimeSeries.podspec; sourceTree = "<group>"; };
+		DA6745DB692B20178BDC2EE8 /* SwiftTimeSeries.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SwiftTimeSeries.podspec; path = ../SwiftTimeSeries.podspec; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				62DA556E1F224700003A57B7 /* TimeSeriesTests.swift */,
 				607FACEB1AFB9204008FA782 /* Tests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
@@ -382,6 +385,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				62DA556F1F224700003A57B7 /* TimeSeriesTests.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

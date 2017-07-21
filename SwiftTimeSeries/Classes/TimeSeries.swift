@@ -1,21 +1,7 @@
 // Copyright © 2017 Quantac. All rights reserved.
 
 import Foundation
-import Pantry
-
-// Error types specific to usage with this class
-enum TimeSeriesError: Error {
-    
-    // A put operation (prepend or append) adds items
-    // not in order against the existing collection
-    // stored in the time series.
-    case nonAscendingOrder
-    
-    // A put operation's argument is invalid as the
-    // collection is not in order (currently this class 
-    // is always paranoid and checks every time)
-    case nonAscendingOrderArgument
-}
+import Pantry // Wraps user defaults; makes it easier to read from / persist data to file
 
 // Threadsafe container for queueing/dequeing data that persists 
 // data to disk.
@@ -24,10 +10,10 @@ enum TimeSeriesError: Error {
 // buckets e.g. a smaller one that is used for quick storage
 // and a large one that is periodically overwritten (takes longer 
 // to read, append, rewrite as list size grows)
-class PersistantConcurrentTimeSeries<T> where T: Storable, T: TimeSeriesItem {
+public class PersistantConcurrentTimeSeries<T> where T: TimeSeriesItem, T: Storable {
     
     private let label: String
-    
+
     // Serialize requests to modify data
     private let dataOpsSerializationQueue : DispatchQueue
     
