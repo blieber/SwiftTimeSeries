@@ -1,0 +1,22 @@
+{
+  "name": "SwiftTimeSeries",
+  "version": "0.1.0",
+  "summary": "A short description of SwiftTimeSeries.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/blieber/SwiftTimeSeries",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "blieber": "ben@quantac.co"
+  },
+  "source": {
+    "git": "https://github.com/blieber/SwiftTimeSeries.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "SwiftTimeSeries/Classes/**/*"
+}

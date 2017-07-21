@@ -1,0 +1,6 @@
+framework module Pods_SwiftTimeSeries_Example {
+  umbrella header "Pods-SwiftTimeSeries_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

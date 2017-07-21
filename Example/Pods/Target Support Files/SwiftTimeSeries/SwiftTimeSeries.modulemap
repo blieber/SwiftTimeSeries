@@ -1,0 +1,6 @@
+framework module SwiftTimeSeries {
+  umbrella header "SwiftTimeSeries-umbrella.h"
+
+  export *
+  module * { export * }
+}
