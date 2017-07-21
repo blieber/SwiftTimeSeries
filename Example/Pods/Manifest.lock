@@ -11,8 +11,10 @@ PODS:
     - FBSnapshotTestCase (~> 2.0)
     - Nimble
     - Quick
+  - Pantry (0.3)
   - Quick (1.0.0)
-  - SwiftTimeSeries (0.1.0)
+  - SwiftTimeSeries (0.1.0):
+    - Pantry (~> 0.3)
 
 DEPENDENCIES:
   - FBSnapshotTestCase
@@ -29,8 +31,9 @@ SPEC CHECKSUMS:
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
   Nimble-Snapshots: e743439f26c2fa99d8f7e0d7c01c99bcb40aa6f2
+  Pantry: 98481849be65d2b2cb9658976533e84ebd266192
   Quick: 8024e4a47e6cc03a9d5245ef0948264fc6d27cff
-  SwiftTimeSeries: 3129c5e638614e947dd37545594915a68b1beb5c
+  SwiftTimeSeries: 10a81d204cc473b4b1875647cd46bb5546d79d71
 
 PODFILE CHECKSUM: 5849884698a6c8e3c2d9dcd607d3fa5f3c0850b5
 

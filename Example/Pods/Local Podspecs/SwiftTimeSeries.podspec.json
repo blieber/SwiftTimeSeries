@@ -1,7 +1,7 @@
 {
   "name": "SwiftTimeSeries",
   "version": "0.1.0",
-  "summary": "A short description of SwiftTimeSeries.",
+  "summary": "TimeSeries data structure implementation in Swift.",
   "description": "TODO: Add long description of the pod here.",
   "homepage": "https://github.com/blieber/SwiftTimeSeries",
   "license": {
@@ -9,7 +9,7 @@
     "file": "LICENSE"
   },
   "authors": {
-    "blieber": "ben@quantac.co"
+    "blieber": "benjamin.lieber@gmail.com"
   },
   "source": {
     "git": "https://github.com/blieber/SwiftTimeSeries.git",
@@ -18,5 +18,10 @@
   "platforms": {
     "ios": "8.0"
   },
-  "source_files": "SwiftTimeSeries/Classes/**/*"
+  "source_files": "SwiftTimeSeries/Classes/**/*",
+  "dependencies": {
+    "Pantry": [
+      "~> 0.3"
+    ]
+  }
 }
