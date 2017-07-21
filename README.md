@@ -22,7 +22,7 @@ pod "SwiftTimeSeries"
 
 ## Author
 
-blieber, ben@quantac.co
+blieber, benjamin.lieber@gmail.com
 
 ## License
 

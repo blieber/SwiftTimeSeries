@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
 
   s.description      = <<-DESC
 Threadsafe, user-data persisted implementation of a time series with convenient methods
-to add, remove, and slice data by timestamp windows.
+to add, remove, and slice data by timestamp.
                        DESC
 
   s.homepage         = 'https://github.com/blieber/SwiftTimeSeries'
