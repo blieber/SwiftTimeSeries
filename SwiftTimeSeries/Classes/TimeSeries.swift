@@ -17,7 +17,7 @@ public class TimeSeries<T> where T: TimeSeriesItem, T: Storable {
 
     /// Serialize requests to modify data
     private let dataOpsSerializationQueue : DispatchQueue
-    
+
     // Synchronization is used for write only to ensure consistency
     // for adding/removing elements from underlying array.
     //
@@ -37,19 +37,19 @@ public class TimeSeries<T> where T: TimeSeriesItem, T: Storable {
             return inMemoryData.count
         }
     }
-    
+
     public var first : T? {
         get {
             return inMemoryData.first
         }
     }
-    
+
     public var last : T? {
         get {
             return inMemoryData.last
         }
     }
-    
+
     /**
          @param label Unique key used to bucket user data and for serialization queue.
     */
@@ -129,7 +129,7 @@ public class TimeSeries<T> where T: TimeSeriesItem, T: Storable {
         Add an element before start of existing series.
      
         Current design assumes items will always be in ascending time order.
-     */
+    */
     public func prepend(_ newElement: T, completion: @escaping ((Error?) -> ())) {
         dataOpsSerializationQueue.async { [weak self] in
             if let selfReference = self {
@@ -162,7 +162,7 @@ public class TimeSeries<T> where T: TimeSeriesItem, T: Storable {
                     return
                 }
                 
-                guard TimeSeries.isSorted(contentsOf) else {
+                guard PersistantConcurrentTimeSeries.isSorted(contentsOf) else {
                     completion(TimeSeriesError.nonAscendingOrderArgument)
                     return
                 }
@@ -186,7 +186,7 @@ public class TimeSeries<T> where T: TimeSeriesItem, T: Storable {
 
     /**
         Get all items.
-     */
+    */
     public func get() -> AnyRandomAccessCollection<T> {
         return AnyRandomAccessCollection(inMemoryData)
     }
@@ -201,12 +201,6 @@ public class TimeSeries<T> where T: TimeSeriesItem, T: Storable {
             return AnyRandomAccessCollection([])
         }
         
-        // Trivial case - since is before earliest timestamp
-        // Algorithm note - this also handles edge case where have list of size 1
-        if inMemoryData.first!.timestamp > since {
-            return AnyRandomAccessCollection(inMemoryData)
-        }
-        
         let startIndex = binarySearch { timestamp -> Bool in
             return timestamp <= since
         }
@@ -215,15 +209,50 @@ public class TimeSeries<T> where T: TimeSeriesItem, T: Storable {
     }
     
     /**
+        Get all items until date, non-inclusive
+    */
+    public func get(until: Date) -> AnyRandomAccessCollection<T> {
+        
+        // Trivial case - empty list or since is after latest timestamp
+        if inMemoryData.last == nil || inMemoryData.first!.timestamp >= until {
+            return AnyRandomAccessCollection([])
+        }
+        
+        let endIndex = binarySearch { timestamp -> Bool in
+            return timestamp >= until
+        }
+        let slice = inMemoryData[0..<endIndex]
+        return AnyRandomAccessCollection(slice)
+    }
+    
+    // TODO - implement lazy drop - just mark what needs to be truncated and do so when
+    //        writing back after next append
+    
+    /**
         Drop all items until date inclusive.
     */
     public func drop(until: Date, completion: @escaping ((Error?) -> ())) {
-        
-        // TODO - implement lazy drop - just mark what needs to be truncated and do so when
-        //        writing back after next append
+
         dataOpsSerializationQueue.async { [weak self] in
             if let selfReference = self {
                 let newInMemoryData = Array(selfReference.get(since: until))
+                selfReference.inMemoryData = newInMemoryData
+                Pantry.pack(newInMemoryData, key: selfReference.label)
+                completion(nil)
+            }
+            else {
+                completion(nil)
+            }
+        }
+    }
+    
+    /**
+        Drop all items since date inclusive.
+    */
+    public func drop(since: Date, completion: @escaping ((Error?) -> ())) {
+        dataOpsSerializationQueue.async { [weak self] in
+            if let selfReference = self {
+                let newInMemoryData = Array(selfReference.get(until: since))
                 selfReference.inMemoryData = newInMemoryData
                 Pantry.pack(newInMemoryData, key: selfReference.label)
                 completion(nil)
