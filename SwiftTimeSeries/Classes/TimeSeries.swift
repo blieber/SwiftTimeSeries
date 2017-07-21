@@ -3,18 +3,19 @@
 import Foundation
 import Pantry // Wraps user defaults; makes it easier to read from / persist data to file
 
-// Threadsafe container for queueing/dequeing data that persists 
-// data to disk.
-//
-// A more efficient implementation could be to manage various 
+// TODO - A more efficient implementation could be to manage various
 // buckets e.g. a smaller one that is used for quick storage
-// and a large one that is periodically overwritten (takes longer 
+// and a large one that is periodically overwritten (takes longer
 // to read, append, rewrite as list size grows)
-public class PersistantConcurrentTimeSeries<T> where T: TimeSeriesItem, T: Storable {
+
+/**
+    Threadsafe container for queueing/dequeing data that also persists to/from user data.
+*/
+public class TimeSeries<T> where T: TimeSeriesItem, T: Storable {
     
     private let label: String
 
-    // Serialize requests to modify data
+    /// Serialize requests to modify data
     private let dataOpsSerializationQueue : DispatchQueue
     
     // Synchronization is used for write only to ensure consistency
@@ -49,11 +50,12 @@ public class PersistantConcurrentTimeSeries<T> where T: TimeSeriesItem, T: Stora
         }
     }
     
-    // "label" should be unique - key used to persist data (and
-    //  for serialization queue)
+    /**
+         @param label Unique key used to bucket user data and for serialization queue.
+    */
     public init (label: String) {
 
-        let label = "PersistantConcurrentQueue_\(label)"
+        let label = "TimeSeries_\(label)"
 
         self.label = label
 
@@ -64,7 +66,11 @@ public class PersistantConcurrentTimeSeries<T> where T: TimeSeriesItem, T: Stora
         inMemoryData = Pantry.unpack(label) ?? []
     }
 
-    // Current design assumes items will always be in ascending time order.
+    /**
+        Add an element after end of existing series.
+ 
+        Current design assumes items will always be in ascending time order.
+    */
     public func append(_ newElement: T, completion: @escaping ((Error?) -> ())) {
         dataOpsSerializationQueue.async { [weak self] in
             if let selfReference = self {
@@ -82,7 +88,11 @@ public class PersistantConcurrentTimeSeries<T> where T: TimeSeriesItem, T: Stora
         }
     }
 
-    // Current design assumes items will always be in ascending time order.
+    /**
+        Add elements after end of existing series.
+        
+        Current design assumes items will always be in ascending time order.
+    */
     public func append(contentsOf: Array<T>, completion: @escaping ((Error?) -> ())) {
         dataOpsSerializationQueue.async { [weak self] in
             if let selfReference = self {
@@ -93,7 +103,7 @@ public class PersistantConcurrentTimeSeries<T> where T: TimeSeriesItem, T: Stora
                     return
                 }
                 
-                guard PersistantConcurrentTimeSeries.isSorted(contentsOf) else {
+                guard TimeSeries.isSorted(contentsOf) else {
                     completion(TimeSeriesError.nonAscendingOrderArgument)
                     return
                 }
@@ -115,7 +125,33 @@ public class PersistantConcurrentTimeSeries<T> where T: TimeSeriesItem, T: Stora
         }
     }
     
-    // Current design assumes items will always be in ascending time order.
+    /**
+        Add an element before start of existing series.
+     
+        Current design assumes items will always be in ascending time order.
+     */
+    public func prepend(_ newElement: T, completion: @escaping ((Error?) -> ())) {
+        dataOpsSerializationQueue.async { [weak self] in
+            if let selfReference = self {
+                
+                guard selfReference.inMemoryData.first == nil ||
+                    newElement.timestamp <= selfReference.inMemoryData.first!.timestamp else {
+                        completion(TimeSeriesError.nonAscendingOrder)
+                        return
+                }
+                
+                selfReference.inMemoryData.insert(newElement, at: 0)
+                Pantry.pack(selfReference.inMemoryData, key: selfReference.label)
+                completion(nil)
+            }
+        }
+    }
+
+    /** 
+        Add elements before start of existing series.
+     
+        Current design assumes items will always be in ascending time order.
+    */
     public func prepend(contentsOf: Array<T>, completion: @escaping ((Error?) -> ())) {
         dataOpsSerializationQueue.async { [weak self] in
             if let selfReference = self {
@@ -126,7 +162,7 @@ public class PersistantConcurrentTimeSeries<T> where T: TimeSeriesItem, T: Stora
                     return
                 }
                 
-                guard PersistantConcurrentTimeSeries.isSorted(contentsOf) else {
+                guard TimeSeries.isSorted(contentsOf) else {
                     completion(TimeSeriesError.nonAscendingOrderArgument)
                     return
                 }
@@ -148,11 +184,16 @@ public class PersistantConcurrentTimeSeries<T> where T: TimeSeriesItem, T: Stora
         }
     }
 
+    /**
+        Get all items.
+     */
     public func get() -> AnyRandomAccessCollection<T> {
         return AnyRandomAccessCollection(inMemoryData)
     }
 
-    // Get all items since date, non-inclusive
+    /**
+        Get all items since date, non-inclusive
+    */
     public func get(since: Date) -> AnyRandomAccessCollection<T> {
         
         // Trivial case - empty list or since is after latest timestamp
@@ -173,10 +214,13 @@ public class PersistantConcurrentTimeSeries<T> where T: TimeSeriesItem, T: Stora
         return AnyRandomAccessCollection(slice)
     }
     
-    // Drop all items until date inclusive.
-    // TODO - implement lazy drop - just mark what needs to be truncated and do so when
-    //        writing back after next append
+    /**
+        Drop all items until date inclusive.
+    */
     public func drop(until: Date, completion: @escaping ((Error?) -> ())) {
+        
+        // TODO - implement lazy drop - just mark what needs to be truncated and do so when
+        //        writing back after next append
         dataOpsSerializationQueue.async { [weak self] in
             if let selfReference = self {
                 let newInMemoryData = Array(selfReference.get(since: until))
